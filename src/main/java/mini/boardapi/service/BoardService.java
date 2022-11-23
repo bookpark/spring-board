@@ -22,7 +22,7 @@ public class BoardService {
         MultipartFile file = board.getFile();
         String filename = null;
         if (file != null && !file.isEmpty()) {
-            String path = "/Users/book/KFQ/java/";
+            String path = "/Users/book/KFQ/java/spring/board-api/uploads/";
             filename = file.getOriginalFilename();
             File dFile = new File(path + filename);
             file.transferTo(dFile);
