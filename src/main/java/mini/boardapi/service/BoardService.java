@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +30,14 @@ public class BoardService {
             board.setFilename(filename);
         }
         boardRepository.save(board);
+    }
+
+    public Board detailBoard(Long id) throws Exception {
+        Optional<Board> board = boardRepository.findById(id);
+        if (board.isPresent()) {
+            return board.get();
+        }
+        throw new Exception("글 번호 오류");
     }
 
 }

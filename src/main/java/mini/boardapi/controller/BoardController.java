@@ -6,10 +6,7 @@ import mini.boardapi.domain.Board;
 import mini.boardapi.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -54,6 +51,19 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<String>("게시글 저장 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    @GetMapping("/api/board-detail/{id}")
+    public ResponseEntity<Board> boardDetail(@PathVariable Long id) {
+        ResponseEntity<Board> res = null;
+        try {
+            Board board = boardService.detailBoard(id);
+            res = new ResponseEntity<Board>(board, HttpStatus.OK);
+        } catch(Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Board>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }
