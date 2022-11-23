@@ -4,13 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import mini.boardapi.domain.Board;
 import mini.boardapi.service.BoardService;
+import org.aspectj.util.FileUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,4 +73,19 @@ public class BoardController {
         }
         return res;
     }
+
+    @GetMapping("/img/{filename}")
+    public void imageView(@PathVariable String filename, HttpServletResponse response) {
+        System.out.println(filename);
+        try {
+            String path = "/Users/book/KFQ/java/spring/board-api/uploads/";
+            FileInputStream fis = new FileInputStream(path + filename);
+            OutputStream out = response.getOutputStream();
+            FileCopyUtils.copy(fis, out);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
