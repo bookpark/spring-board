@@ -50,10 +50,11 @@ public class BoardController {
 //    }
 
     @PostMapping("/api/write-board-v2")
-    public ResponseEntity<String> writeBoardV2(@ModelAttribute Board board) {
+    public ResponseEntity<String> writeBoardV2(@ModelAttribute Board board,
+                                               @RequestParam(name = "file", required = false) MultipartFile file) {
         ResponseEntity<String> res = null;
         try {
-            boardService.writeBoardV2(board);
+            boardService.writeBoardV2(board, file);
             res = new ResponseEntity<String>("게시글 저장 성공", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +69,7 @@ public class BoardController {
         try {
             Board board = boardService.detailBoard(id);
             res = new ResponseEntity<Board>(board, HttpStatus.OK);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<Board>(HttpStatus.BAD_REQUEST);
         }

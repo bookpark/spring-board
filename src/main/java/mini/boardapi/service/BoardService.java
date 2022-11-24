@@ -21,8 +21,7 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public void writeBoardV2(Board board) throws Exception {
-        MultipartFile file = board.getFile();
+    public void writeBoardV2(Board board, MultipartFile file) throws Exception {
         String filename = null;
         if (file != null && !file.isEmpty()) {
             String path = "/Users/book/KFQ/java/spring/board-api/uploads/";
