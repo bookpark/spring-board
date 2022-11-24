@@ -3,6 +3,7 @@ package mini.boardapi.service;
 import lombok.RequiredArgsConstructor;
 import mini.boardapi.domain.Board;
 import mini.boardapi.repository.BoardRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +43,6 @@ public class BoardService {
     }
 
     public List<Board> listBoard() {
-        return boardRepository.findAll();
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
-
 }
