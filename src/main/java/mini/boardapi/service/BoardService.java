@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,6 +39,10 @@ public class BoardService {
             return board.get();
         }
         throw new Exception("글 번호 오류");
+    }
+
+    public List<Board> listBoard() {
+        return boardRepository.findAll();
     }
 
 }

@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,6 +87,20 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/api/list")
+    public ResponseEntity<List<Board>> listBoard() throws Exception {
+        ResponseEntity<List<Board>> res = null;
+        List<Board> boards = null;
+        try {
+            boards = boardService.listBoard();
+            res = new ResponseEntity<List<Board>>(boards, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<List<Board>>(boards, HttpStatus.BAD_REQUEST);
+        }
+        return res;
     }
 
 }
