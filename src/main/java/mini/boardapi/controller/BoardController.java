@@ -21,6 +21,7 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -141,6 +142,20 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    @PutMapping("/api/delete/{id}")
+    public ResponseEntity<Integer> deleteBoard(@PathVariable Long id,
+                                              @RequestParam("password") String password) {
+        ResponseEntity<Integer> res = null;
+        try {
+            Integer msgNo = boardService.deleteBoard(id, password);
+            res = new ResponseEntity<Integer>(msgNo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }

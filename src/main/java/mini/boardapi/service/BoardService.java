@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -78,4 +79,16 @@ public class BoardService {
         return pages.getContent();
     }
 
+    public Integer deleteBoard(Long id, String password) throws Exception {
+        Optional<Board> oBoard = boardRepository.findById(id);
+        if (oBoard.isEmpty()) {
+            return -1;
+        }
+        Board board = oBoard.get();
+        if (!Objects.equals(board.getPassword(), password)) {
+            return -2;
+        }
+        boardRepository.delete(board);
+        return 0;
+    }
 }
