@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import mini.boardapi.domain.Board;
 import mini.boardapi.service.BoardService;
+import mini.boardapi.vo.PageInfo;
 import org.aspectj.util.FileUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -116,6 +119,28 @@ public class BoardController {
         } catch (Exception e) {
             e.printStackTrace();
             res = new ResponseEntity<String>("게시글 수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
+    // 400이 뜨는 경우는 mapping이 안됐거나 parameter가 안맞거나
+    @GetMapping(value = {"/page/{page}", "/page"})
+    public ResponseEntity<Map<String, Object>> pageBoard(@PathVariable(required = false) Integer page) {
+        if (page == null) {
+            page = 1;
+        }
+        ResponseEntity<Map<String, Object>> res = null;
+        try {
+            PageInfo pageInfo = new PageInfo();
+            pageInfo.setCurPage(page);
+            List<Board> boards = boardService.pageBoard(pageInfo);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("pageInfo", pageInfo);
+            map.put("boards", boards);
+            res = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
         }
         return res;
     }
