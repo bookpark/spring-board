@@ -41,6 +41,17 @@ public class BoardService {
         throw new Exception("글 번호 오류");
     }
 
+    public void updateBoard(Long id, String subject, String content) throws Exception {
+        Optional<Board> oBoard = boardRepository.findById(id);
+        if (oBoard.isEmpty()) {
+            throw new Exception("글 조회 오류");
+        }
+        Board board = oBoard.get();
+        board.setSubject(subject);
+        board.setContent(content);
+        boardRepository.save(board);
+    }
+
     public List<Board> listBoard() {
         return boardRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }

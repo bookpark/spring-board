@@ -104,4 +104,20 @@ public class BoardController {
         return res;
     }
 
+    @PutMapping("/api/update/{id}")
+    public ResponseEntity<String> updateBoard(@PathVariable Long id,
+                                              @RequestParam("subject") String subject,
+                                              @RequestParam("content") String content) {
+        ResponseEntity<String> res = null;
+        try {
+            Board board = boardService.detailBoard(id);
+            boardService.updateBoard(id, subject, content);
+            res = new ResponseEntity<String>("게시글 수정 성공", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = new ResponseEntity<String>("게시글 수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return res;
+    }
+
 }
